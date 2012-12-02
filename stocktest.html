@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+        Remove this if you use the .htaccess -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <title>stocktest</title>
+        <meta name="description" content="" />
+        <meta name="author" content="hmqiao" />
+
+
+        <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    </head>
+
+    <body>
+        <div>
+            <header>
+                <h1>stocktest</h1>
+            </header>
+            <nav>
+                <p>
+                    <a href="/">Home</a>
+                </p>
+                <p>
+                    <a href="/contact">Contact</a>
+                </p>
+            </nav>
+
+            <div>
+                <div id="container" style="height: 500px; min-width: 500px"></div>
+            </div>
+
+            <footer>
+                <p>
+                    &copy; Copyright  by hmqiao
+                </p>
+            </footer>
+        </div>
+
+        <!-- javascript -->
+        <script src="js/vendor/jquery-1.8.2.min.js"></script>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <!-- modernizr -->
+        <script src="js/vendor/jcarousellite_1.0.1.js"></script>
+        <!-- jcarousellite -->
+        <script src="js/vendor/jquery-ui-1.9.1.custom.min.js"></script>
+        <!-- jQuery UI -->
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="js/vendor/cufon-yui.js"></script>
+        <!-- Cufon font replacement -->
+        <script src="js/vendor/Microsoft_YaHei.js"></script>
+        <!-- the Colaborate Light font -->
+        <script src="js/vendor/easyTooltip.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <!-- jQuery core -->
+        <script src="js/vendor/highstock/highstock.js"></script>
+        <script src="js/vendor/highstock/modules/exporting.js"></script>
+        <script src="js/vendor/highstock/themes/gray.js"></script>
+        <script type="text/javascript">
+            $(function() {
+
+                Highcharts.setOptions({
+                    global : {
+                        useUTC : false
+                    }
+                });
+
+                // Create the chart
+                window.chart = new Highcharts.StockChart({
+                    chart : {
+                        renderTo : 'container',
+                        events : {
+                            load : function() {
+
+                                // set up the updating of the chart each second
+                                var series = this.series[0];
+                                setInterval(function() {
+                                    var x = (new Date()).getTime(), // current time
+                                    y = Math.round(Math.random() * 100);
+                                    series.addPoint([x, y], true, true);
+                                }, 1000);
+                            }
+                        }
+                    },
+
+                    rangeSelector : {
+                        buttons : [{
+                            count : 1,
+                            type : 'minute',
+                            text : '1M'
+                        }, {
+                            count : 5,
+                            type : 'minute',
+                            text : '5M'
+                        }, {
+                            type : 'all',
+                            text : 'All'
+                        }],
+                        inputEnabled : false,
+                        selected : 0
+                    },
+
+                    title : {
+                        text : 'Live random data'
+                    },
+
+                    exporting : {
+                        enabled : false
+                    },
+
+                    series : [{
+                        name : 'Random data',
+                        data : (function() {
+                            // generate an array of random data
+                            var data = [], time = (new Date()).getTime(), i;
+
+                            for ( i = -999; i <= 0; i++) {
+                                data.push([time + i * 1000, Math.round(Math.random() * 100)]);
+                            }
+                            return data;
+                        })()
+                    }]
+                });
+
+            });
+
+        </script>
+
+    </body>
+</html>
